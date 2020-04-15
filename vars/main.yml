@@ -1,4 +1,2 @@
-locale: "ja_JP.UTF-8"
-timezone: Asia/Tokyo
 ansible_user: root
 ansible_ssh_pass: centos

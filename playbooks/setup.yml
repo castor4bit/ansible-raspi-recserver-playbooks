@@ -1,11 +1,7 @@
 ---
 - hosts: all
-  gather_facts: yes
   vars_files:
     - ../vars/main.yml
-    - ../vars/encrypted.yml
 
-  tasks:
-    - include_tasks: ../tasks/init.yml
-    - include_tasks: ../tasks/wifi.yml
-    - include_tasks: ../tasks/packages.yml
+- name: basic settings
+  import_playbook: ./basic.yml
