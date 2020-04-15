@@ -8,3 +8,7 @@
 - name: disable selinux
   selinux:
     state: disabled
+
+- name: expand partition
+  shell: /usr/bin/rootfs-expand
+  ignore_errors: yes
