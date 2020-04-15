@@ -1,0 +1,14 @@
+---
+- name: connect wifi
+  shell: nmcli device wifi connect {{ wifi_ssid }} password {{ wifi_password }}
+
+- name: set static ip address
+  shell: |
+    nmcli connection modify {{ wifi_ssid }} \
+      ipv4.addresses 192.168.11.201/24 \
+      ipv4.gateway   192.168.11.1 \
+      ipv4.dns       192.168.11.1 \
+      ipv4.method    manual
+
+- name: apply changes
+  shell: nmcli connection up {{ wifi_ssid }}
