@@ -8,3 +8,4 @@
   tasks:
     - include_tasks: ../tasks/init.yml
     - include_tasks: ../tasks/wifi.yml
+    - include_tasks: ../tasks/packages.yml
