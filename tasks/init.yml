@@ -1,0 +1,10 @@
+---
+- name: set locale
+  shell: localectl set-locale LANG={{ locale }}
+
+- name: set timezone
+  shell: timedatectl set-timezone {{ timezone }}
+
+- name: disable selinux
+  selinux:
+    state: disabled
