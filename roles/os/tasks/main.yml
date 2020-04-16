@@ -4,3 +4,9 @@
 
 - name: set timezone
   shell: raspi-config nonint do_change_timezone {{ timezone }}
+
+- name: disable swap
+  shell: |
+    swapoff --all
+    systemctl stop dphys-swapfile
+    systemctl disable dphys-swapfile
