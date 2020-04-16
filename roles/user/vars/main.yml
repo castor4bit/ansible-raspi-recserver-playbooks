@@ -1,0 +1,2 @@
+users:
+  - { name: "castor", group: "sudo", authorized_key: "https://github.com/castor4bit.keys" }

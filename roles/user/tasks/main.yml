@@ -1,0 +1,12 @@
+---
+- name: create users
+  user:
+    name: "{{ item.name }}"
+    group: "{{ item.group }}"
+  with_items: "{{ users }}"
+
+- name: put authorized key
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.authorized_key }}"
+  with_items: "{{ users }}"
