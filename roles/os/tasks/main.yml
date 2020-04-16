@@ -1,14 +1,6 @@
 ---
 - name: set locale
-  shell: localectl set-locale LANG={{ locale }}
+  shell: raspi-config nonint do_change_locale {{ locale }}
 
 - name: set timezone
-  shell: timedatectl set-timezone {{ timezone }}
-
-- name: disable selinux
-  selinux:
-    state: disabled
-
-- name: expand partition
-  shell: /usr/bin/rootfs-expand
-  ignore_errors: yes
+  shell: raspi-config nonint do_change_timezone {{ timezone }}

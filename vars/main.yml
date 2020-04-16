@@ -1,2 +1,2 @@
-ansible_user: root
-ansible_ssh_pass: centos
+ansible_user: pi
+ansible_ssh_pass: raspberry

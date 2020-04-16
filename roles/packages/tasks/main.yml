@@ -1,5 +1,13 @@
 ---
-- name: upgrade all packages
-  yum:
-    name: '*'
-    state: latest
+- name: install python-apt
+  become: yes
+  apt:
+    name: python-apt
+    state: present
+
+- name: update all packages
+  become: yes
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
