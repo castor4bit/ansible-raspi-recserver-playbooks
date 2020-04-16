@@ -1,0 +1,9 @@
+---
+- name: install docker
+  import_tasks: install.yml
+
+- name: config docker
+  import_tasks: config.yml
+
+- name: restart docker
+  import_tasks: restarted.yml

@@ -5,3 +5,6 @@
 
 - name: basic settings
   import_playbook: ./basic.yml
+
+- name: setup recording server
+  import_playbook: ./recserver.yml

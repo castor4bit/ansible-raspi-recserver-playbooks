@@ -1,0 +1,41 @@
+---
+- name: install packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+    enablerepo: extras
+  with_items:
+    - device-mapper-persistent-data
+    - lvm2
+    - yum-utils
+
+- name: enable extras repository
+  shell: "yum-config-manager --enable Extra"
+
+- name: add docker repository
+  shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+
+- name: install packages (extras)
+  yum:
+    name: "{{ item }}"
+    state: latest
+    enablerepo: extras
+  with_items:
+    - container-selinux
+
+- name: install docker-ce
+  yum:
+    name: docker-ce
+    state: latest
+
+- name: install docker-compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64"
+    dest: "/usr/local/bin/docker-compose"
+  register: download_result
+  until: download_result is succeeded
+
+- name: set executable
+  file:
+    path: "/usr/local/bin/docker-compose"
+    mode: "+x"
