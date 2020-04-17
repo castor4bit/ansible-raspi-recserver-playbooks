@@ -1,0 +1,36 @@
+---
+- name: install git
+  apt:
+    name: git
+    state: present
+
+- name: create working directory
+  tempfile:
+    state: directory
+    prefix: docker_compose
+  register: build_dir
+
+- name: clone docker-compose
+  git:
+    repo: 'https://github.com/docker/compose.git'
+    dest: "{{ build_dir.path }}"
+    version: 1.25.5
+
+- name: build docker-compose
+  shell: ./script/build/linux
+  args:
+    chdir: "{{ build_dir.path }}"
+
+- name: install docker-compose
+  copy:
+    src: "{{ build_dir.path }}/dist/docker-compose-Linux-armv7l"
+    dest: /usr/local/bin/docker-compose
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: yes
+
+- name: cleanup working directory
+  file:
+    path: "{{ build_dir.path }}"
+    state: absent

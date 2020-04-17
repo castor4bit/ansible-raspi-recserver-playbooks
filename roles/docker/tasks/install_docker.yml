@@ -1,0 +1,9 @@
+---
+- name: install docker
+  shell: curl -sSL https://get.docker.com | sh
+
+- name: enable docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes

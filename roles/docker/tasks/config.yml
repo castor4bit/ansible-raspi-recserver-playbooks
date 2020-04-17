@@ -1,6 +1,0 @@
----
-- name: setting systemd limits
-  lineinfile:
-    dest: "/usr/lib/systemd/system/docker.service"
-    regexp: "^ExecStart=/usr/bin/dockerd"
-    line: "ExecStart=/usr/bin/dockerd -H unix:// -s overlay --mtu=1400 --bip=172.16.1.1/24"
