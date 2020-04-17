@@ -7,3 +7,12 @@
     name: docker
     state: started
     enabled: yes
+
+- name: add users to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: true
+  with_items:
+    - pi
+    - castor
