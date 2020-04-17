@@ -10,3 +10,10 @@
     user: "{{ item.name }}"
     key: "{{ item.authorized_key }}"
   with_items: "{{ users }}"
+
+- name: enable sudo without password
+  copy:
+    dest: "/etc/sudoers.d/010_{{ item.name }}-nopasswd"
+    content: "{{ item.name }} ALL=(ALL) NOPASSWD: ALL"
+  when: item.group == "sudo"
+  with_items: "{{ users }}"
