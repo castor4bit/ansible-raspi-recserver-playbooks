@@ -22,7 +22,7 @@ services:
         restart: always
 
     mysql:
-        image: mariadb:10.4
+        image: jsurf/rpi-mariadb
         container_name: mysql
         volumes:
             - mysql-db:/var/lib/mysql
