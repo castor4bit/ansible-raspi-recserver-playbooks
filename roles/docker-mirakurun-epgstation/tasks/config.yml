@@ -1,0 +1,14 @@
+---
+- name: find card reader (SCR3310-NTTCom)
+  shell: lsusb | grep 'SCM Microsystems, Inc.'
+  register: lsusb_result
+  check_mode: no
+
+- set_fact:
+    card_reader_bus: "{{ lsusb_result.stdout.split(' ')[1] }}"
+    card_reader_dev: "{{ lsusb_result.stdout.split(' ')[3][:-1] }}"
+
+- name: set custom docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: "{{ docker_mirakurun_epgstation_path}}/docker-compose.yml"

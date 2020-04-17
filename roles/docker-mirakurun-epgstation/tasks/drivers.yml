@@ -1,0 +1,23 @@
+---
+- name: create working directory
+  tempfile:
+    state: directory
+    prefix: drivers
+  register: work_dir
+
+- name: download PX-S1UD firmware
+  unarchive:
+    src: http://plex-net.co.jp/plex/px-s1ud/PX-S1UD_driver_Ver.1.0.1.zip
+    dest: "{{ work_dir.path }}"
+    remote_src: yes
+
+- name: download PX-S1UD firmware
+  copy:
+    src: "{{ work_dir.path }}/PX-S1UD_driver_Ver.1.0.1/x86/i386/isdbt_rio.inp"
+    dest: /lib/firmware/
+    remote_src: yes
+
+- name: cleanup working directory
+  file:
+    path: "{{ work_dir.path }}"
+    state: absent
