@@ -1,0 +1,48 @@
+---
+- name: install packages
+  apt:
+    name: dkms
+
+- name: create working directory
+  tempfile:
+    state: directory
+    prefix: px-w3u4
+  register: work_dir
+
+- name: clone px4_drv
+  git:
+    repo: https://github.com/nns779/px4_drv
+    dest: "{{ work_dir.path }}"
+    force: true
+
+- name: download officlal PX-W3U4 driver
+  unarchive:
+    src: http://plex-net.co.jp/plex/pxw3u4/pxw3u4_BDA_ver1x64.zip
+    dest: "{{ work_dir.path }}"
+    remote_src: yes
+
+- name: convert & install firmware
+  shell: |
+    make
+    ./fwtool ../pxw3u4_BDA_ver1x64/PXW3U4.sys it930x-firmware.bin
+    cp it930x-firmware.bin /lib/firmware/
+  args:
+    chdir: "{{ work_dir.path }}/fwtool"
+
+- name: copy driver source
+  copy:
+    src: "{{ work_dir.path }}"
+    dest: /usr/src/px4_drv-0.2.1
+    remote_src: yes
+
+- name: build & install driver
+  shell: |
+    dkms add px_drv/0.2.1
+    dkms install px4_drv/0.2.1
+    modprobe px4_drv
+
+- name: cleanup working directory
+  file:
+    path: "{{ work_dir.path }}"
+    state: absent
+

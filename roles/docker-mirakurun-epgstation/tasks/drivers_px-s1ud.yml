@@ -2,7 +2,7 @@
 - name: create working directory
   tempfile:
     state: directory
-    prefix: drivers
+    prefix: px-s1ud
   register: work_dir
 
 - name: download PX-S1UD firmware

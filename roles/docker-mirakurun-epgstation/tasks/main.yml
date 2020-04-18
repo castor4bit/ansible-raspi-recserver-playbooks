@@ -3,8 +3,12 @@
   import_tasks: install.yml
   tags: install_docker_mirakurun_epgstation
 
-- name: install drivers
-  import_tasks: drivers.yml
+- name: install drivers (PX-S1UD)
+  import_tasks: drivers_px-s1ud.yml
+  tags: install_tuner_drivers
+
+- name: install drivers (PX-W3U4)
+  import_tasks: drivers_px-w3u4.yml
   tags: install_tuner_drivers
 
 - name: config docker-mirakurun-epgstation

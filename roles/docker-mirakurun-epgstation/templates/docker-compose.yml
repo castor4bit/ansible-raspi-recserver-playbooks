@@ -18,6 +18,10 @@ services:
             TZ: "Asia/Tokyo"
         devices:
             - /dev/dvb/adapter0
+            - /dev/pt4video0:/dev/pt4video0
+            - /dev/pt4video1:/dev/pt4video1
+            - /dev/pt4video2:/dev/pt4video2
+            - /dev/pt4video3:/dev/pt4video3
             - /dev/bus/usb/{{ card_reader_bus }}/{{ card_reader_dev }}
         restart: always
 
