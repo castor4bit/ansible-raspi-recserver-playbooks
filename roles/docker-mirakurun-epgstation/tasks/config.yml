@@ -13,7 +13,10 @@
     src: docker-compose.yml
     dest: "{{ docker_mirakurun_epgstation_path}}/docker-compose.yml"
 
-- name: set custom docker-compose.yml
+- name: mirakurun settings
   copy:
-    src: mirakurun/conf/tuners.yml
-    dest: "{{ docker_mirakurun_epgstation_path}}/mirakurun/conf/tuners.yml"
+    src: "{{ item }}"
+    dest: "{{ docker_mirakurun_epgstation_path}}/{{ item }}"
+  with_items:
+    - mirakurun/conf/server.yml
+    - mirakurun/conf/tuners.yml
