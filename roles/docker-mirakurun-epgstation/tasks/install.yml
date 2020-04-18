@@ -5,11 +5,29 @@
     dest: "{{ docker_mirakurun_epgstation_path }}"
     force: true
 
-- name: fix Dockerfile (to fix build error)
+- name: fix EPGStation Dockerfile (to avoid build error)
   replace:
     path: "{{ docker_mirakurun_epgstation_path }}/epgstation/Dockerfile"
     regexp: 'build-essential python3'
     replace: 'build-essential python python3'
+
+- name: fix mirakurun Dockerfile (to use PX-S1UD)
+  blockinfile:
+    path: "{{ docker_mirakurun_epgstation_path }}/mirakurun/Dockerfile"
+    block: |
+      # recdvb
+      \
+      apt-get -y install wget && \
+      cd /tmp && \
+      wget http://www13.plala.or.jp/sat/recdvb/recdvb-{{ recdvb_version }}.tgz -O recdvb-{{ recdvb_version }}.tgz && \
+      tar zxf recdvb-{{ recdvb_version }}.tgz && \
+      cd recdvb-{{ recdvb_version }} && \
+      ./autogen.sh && \
+      ./configure && \
+      make && \
+      make install && \
+      \
+    insertbefore: '# recpt1'
 
 - name: build
   shell: docker-compose build

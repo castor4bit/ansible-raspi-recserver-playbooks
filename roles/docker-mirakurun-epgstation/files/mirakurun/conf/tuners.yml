@@ -1,0 +1,7 @@
+- name: PX-S1UD
+  types:
+    - GR
+  command: recdvb <channel> - -
+  dvbDevicePath: /dev/dvb/adapter0
+  decoder: arib-b25-stream-test
+  isDisabled: false
