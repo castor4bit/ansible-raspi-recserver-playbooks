@@ -20,3 +20,15 @@
   with_items:
     - mirakurun/conf/server.yml
     - mirakurun/conf/tuners.yml
+
+- name: use H264 OMX encoding
+  lineinfile:
+    path: "{{ docker_mirakurun_epgstation_path}}/epgstation/config/enc.js"
+    regexp: "const codec = 'libx264';"
+    line: "const codec = 'h264_omx';"
+
+- name: use H264 OMX encoding (streaming)
+  replace:
+    path: "{{ docker_mirakurun_epgstation_path}}/epgstation/config/config.json"
+    regexp: "-c:v libx264"
+    replace: "-c:v h264_omx"
