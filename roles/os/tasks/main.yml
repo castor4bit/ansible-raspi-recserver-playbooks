@@ -10,3 +10,7 @@
     swapoff --all
     systemctl stop dphys-swapfile
     systemctl disable dphys-swapfile
+
+- name: mount /var/log as tmpfs
+  import_tasks: tmpfs_varlog.yml
+  tags: mount_varlog_as_tmpfs

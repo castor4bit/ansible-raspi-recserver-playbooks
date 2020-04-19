@@ -1,0 +1,37 @@
+---
+- name: mount /var/log as tmpfs in fstab
+  lineinfile:
+    path: /etc/fstab
+    line: 'tmpfs  /var/log  tmpfs   defaults,size=16m,noatime,mode=0755   0 0'
+
+- name: remove /var/log
+  file:
+    path: /var/log
+    state: absent
+  ignore_errors: yes
+
+- name: create /var/log
+  file:
+    path: /var/log
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: add /var/log initialize command
+  blockinfile:
+    path: /etc/rc.local
+    marker: '# {mark} ANSIBLE MANAGED BLOCK (init /var/log)'
+    block: |
+      touch /var/log/btmp
+      touch /var/log/lastlog
+      touch /var/log/wtmp
+
+      chmod 660 /var/log/btmp
+      chmod 664 /var/log/lastlog
+      chmod 664 /var/log/wtmp
+
+      chown root:utmp /var/log/btmp
+      chown root:utmp /var/log/lastlog
+      chown root:utmp /var/log/wtmp
+    insertbefore: 'exit 0'
