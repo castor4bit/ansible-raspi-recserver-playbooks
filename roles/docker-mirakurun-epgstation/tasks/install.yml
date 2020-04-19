@@ -6,10 +6,34 @@
     force: true
 
 - name: fix EPGStation Dockerfile (to avoid build error)
-  replace:
+  lineinfile:
     path: "{{ docker_mirakurun_epgstation_path }}/epgstation/Dockerfile"
-    regexp: 'build-essential python3'
-    replace: 'build-essential python python3'
+    line: '    apt-get -y install python && \'
+    insertafter: 'apt-get -y install libasound2'
+
+- name: fix EPGStation Dockerfile (ffmpeg h264_omx)
+  blockinfile:
+    path: "{{ docker_mirakurun_epgstation_path }}/epgstation/Dockerfile"
+    block: |
+      # ffmpeg libs
+      \
+      apt-get -y install cmake sudo libomxil-bellagio-dev && \
+      cd /root && \
+      git clone --depth 1 https://github.com/raspberrypi/userland.git && \
+      cd /root/userland && \
+      ./buildme && \
+      \
+      echo "/opt/vc/lib" > /etc/ld.so.conf.d/00-vmcs.conf && \
+      ldconfig && \
+      \
+    marker: '# {mark} ANSIBLE MANAGED BLOCK (ffmpeg libs)'
+    insertbefore: '#ffmpeg build'
+
+- name: fix EPGStation Dockerfile (ffmpeg h264_omx)
+  lineinfile:
+    path: "{{ docker_mirakurun_epgstation_path }}/epgstation/Dockerfile"
+    regexp: '--enable-libx264'
+    line: '      --enable-libx264 --enable-mmal --enable-omx-rpi --enable-omx \'
 
 - name: fix mirakurun Dockerfile (to use PX-S1UD)
   blockinfile:
@@ -27,6 +51,7 @@
       make && \
       make install && \
       \
+    marker: '# {mark} ANSIBLE MANAGED BLOCK (recdvb)'
     insertbefore: '# recpt1'
 
 - name: build
