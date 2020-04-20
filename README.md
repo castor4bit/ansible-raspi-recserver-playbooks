@@ -1,4 +1,4 @@
-# Ansible Playbooks for Recording Server (on Raspberry Pi))
+# Ansible Playbooks for Recording Server (on Raspberry Pi)
 
 ```
 $ brew install hudochenkov/sshpass/sshpass
